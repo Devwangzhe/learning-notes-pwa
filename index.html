@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f0f1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="深读 - AI读书笔记，记录自己，成为作品">
+    <title>深读 - AI读书笔记</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- ====== 首页 ====== -->
+        <section id="page-home" class="page active">
+            <div class="page-scroll">
+                <div class="home-header">
+                    <div class="greeting">
+                        <h1 id="greeting-text">晚上好 👋</h1>
+                        <p id="greeting-date" class="text-secondary"></p>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stat-item">
+                        <span class="stat-num" id="stat-today">0</span>
+                        <span class="stat-label">今日记录</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="stat-week">0</span>
+                        <span class="stat-label">本周</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="stat-total">0</span>
+                        <span class="stat-label">累计</span>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button class="quick-btn primary" onclick="navigateTo('analysis')">
+                        <span class="quick-icon">🔍</span>
+                        <span>分析新书</span>
+                    </button>
+                    <button class="quick-btn voice" onclick="showVoiceNoteModal()">
+                        <span class="quick-icon">🎤</span>
+                        <span>语音笔记</span>
+                    </button>
+                    <button class="quick-btn secondary" onclick="showAddNoteModal()">
+                        <span class="quick-icon">📝</span>
+                        <span>写笔记</span>
+                    </button>
+                </div>
+                <div class="section-header">
+                    <h2>最近阅读</h2>
+                    <button class="text-btn" onclick="navigateTo('bookshelf')">查看全部</button>
+                </div>
+                <div class="recent-scroll" id="recent-books">
+                    <div class="empty-hint">还没有分析过书籍，点击上方「分析新书」开始</div>
+                </div>
+                <!-- AI灵感（GET笔记风格） -->
+                <div class="section-header">
+                    <h2>💡 AI灵感</h2>
+                    <span class="text-secondary">基于你的记录</span>
+                </div>
+                <div id="ai-inspiration" class="ai-inspiration card">
+                    <div class="inspiration-icon">🧠</div>
+                    <p class="inspiration-text" id="inspiration-text">多记录，AI会越来越懂你...</p>
+                    <button class="inspiration-action" onclick="navigateTo('brain')">和AI聊聊 →</button>
+                </div>
+                <div class="daily-quote card">
+                    <div class="quote-icon">📖</div>
+                    <p class="quote-text" id="daily-quote-text">阅读是一座随身携带的避难所。</p>
+                    <p class="quote-author text-secondary">— 毛姆</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 书架 ====== -->
+        <section id="page-bookshelf" class="page">
+            <div class="page-scroll">
+                <div class="page-top-bar">
+                    <h1>📚 书架</h1>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="bookshelf-search" placeholder="搜索书籍..." oninput="renderBookshelf()">
+                </div>
+                <div class="filter-chips">
+                    <button class="chip active" data-filter="all" onclick="setBookFilter('all',this)">全部</button>
+                    <button class="chip" data-filter="recent" onclick="setBookFilter('recent',this)">最近</button>
+                </div>
+                <div class="bookshelf-grid" id="bookshelf-grid">
+                    <div class="empty-hint">书架空空如也，去分析你的第一本书吧</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 分析 ====== -->
+        <section id="page-analysis" class="page">
+            <div class="page-scroll">
+                <div class="step-indicator">
+                    <div class="step-dot active" data-step="1">1</div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" data-step="2">2</div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" data-step="3">3</div>
+                </div>
+                <div id="step-1" class="analysis-step active">
+                    <h2>📖 输入书名</h2>
+                    <p class="text-secondary step-hint">告诉我你要分析哪本书</p>
+                    <input type="text" id="analysis-book-title" class="big-input" placeholder="输入书名，如：原子习惯">
+                    <div class="hot-tags">
+                        <span class="text-secondary" style="font-size:13px;margin-right:8px">热门：</span>
+                        <button class="tag-chip" onclick="fillTitle('原子习惯')">原子习惯</button>
+                        <button class="tag-chip" onclick="fillTitle('思考快与慢')">思考快与慢</button>
+                        <button class="tag-chip" onclick="fillTitle('认知觉醒')">认知觉醒</button>
+                        <button class="tag-chip" onclick="fillTitle('被讨厌的勇气')">被讨厌的勇气</button>
+                    </div>
+                    <button class="btn-next" onclick="goStep(2)">下一步 →</button>
+                </div>
+                <div id="step-2" class="analysis-step">
+                    <h2>📋 选择内容来源</h2>
+                    <p class="text-secondary step-hint">提供书籍内容让AI分析</p>
+                    <div class="method-grid">
+                        <div class="method-card active" data-method="text" onclick="selectMethod('text',this)">
+                            <span class="method-icon">📝</span>
+                            <span class="method-name">粘贴文字</span>
+                        </div>
+                        <div class="method-card" data-method="file" onclick="selectMethod('file',this)">
+                            <span class="method-icon">📄</span>
+                            <span class="method-name">上传文件</span>
+                        </div>
+                        <div class="method-card" data-method="photo" onclick="selectMethod('photo',this)">
+                            <span class="method-icon">📷</span>
+                            <span class="method-name">拍照识别</span>
+                        </div>
+                        <div class="method-card" data-method="link" onclick="selectMethod('link',this)">
+                            <span class="method-icon">🔗</span>
+                            <span class="method-name">粘贴链接</span>
+                        </div>
+                    </div>
+                    <div id="method-text" class="method-input active">
+                        <textarea id="book-input" placeholder="粘贴书籍内容、笔记或摘要..." rows="8"></textarea>
+                    </div>
+                    <div id="method-file" class="method-input">
+                        <div class="file-upload-area">
+                            <span>📄</span>
+                            <p>点击选择或拖拽文件</p>
+                            <input type="file" id="file-input" accept=".pdf,.txt,.docx">
+                        </div>
+                        <div id="file-selected" class="file-selected hidden">
+                            <span id="file-name"></span>
+                            <button class="btn-text-danger" onclick="clearFile()">✕</button>
+                        </div>
+                        <p class="text-secondary" style="font-size:12px;margin-top:8px">支持 TXT / PDF / DOCX</p>
+                    </div>
+                    <div id="method-photo" class="method-input">
+                        <input type="file" id="photo-input" accept="image/*" capture="environment">
+                        <p class="text-secondary" style="font-size:12px;margin-top:8px">拍摄书页或上传照片</p>
+                    </div>
+                    <div id="method-link" class="method-input">
+                        <input type="url" id="link-input" placeholder="粘贴书籍链接（豆瓣、亚马逊等）">
+                    </div>
+                    <div class="step-actions">
+                        <button class="btn-back" onclick="goStep(1)">← 上一步</button>
+                        <button class="btn-next" onclick="goStep(3)">下一步 →</button>
+                    </div>
+                </div>
+                <div id="step-3" class="analysis-step">
+                    <h2>🚀 确认并分析</h2>
+                    <div class="confirm-card card">
+                        <div class="confirm-row"><span class="text-secondary">书名</span><span id="confirm-title" class="confirm-value">—</span></div>
+                        <div class="confirm-row"><span class="text-secondary">内容来源</span><span id="confirm-method" class="confirm-value">粘贴文字</span></div>
+                        <div class="confirm-row"><span class="text-secondary">内容长度</span><span id="confirm-length" class="confirm-value">0 字</span></div>
+                    </div>
+                    <button class="btn-analyze" onclick="startAnalysis()">🧠 开始AI深度分析</button>
+                    <div class="step-actions">
+                        <button class="btn-back" onclick="goStep(2)">← 上一步</button>
+                    </div>
+                </div>
+                <div id="analysis-results" class="hidden">
+                    <div class="result-header">
+                        <h2 id="result-book-title">分析结果</h2>
+                        <button class="btn-back" onclick="backToAnalysis()">← 重新分析</button>
+                    </div>
+                    <div class="result-cards" id="result-cards"></div>
+                    <div class="result-actions">
+                        <button class="action-btn" onclick="saveToBookshelf()">📚 保存到书架</button>
+                        <button class="action-btn outline" onclick="importToNotes()">📝 导入笔记</button>
+                        <button class="action-btn outline" onclick="exportResult()">💾 导出</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 笔记（GET笔记风格：记录即创作） ====== -->
+        <section id="page-notes" class="page">
+            <div class="page-scroll">
+                <div class="page-top-bar">
+                    <h1>📝 笔记</h1>
+                    <span class="text-secondary" id="notes-count">0条</span>
+                </div>
+                <!-- 多模态快速输入（GET笔记风格） -->
+                <div class="quick-input-bar">
+                    <input type="text" id="quick-note-input" placeholder="记一个想法..." onkeydown="if(event.key==='Enter')quickAddNote()">
+                    <button class="input-icon-btn" onclick="showVoiceNoteModal()" title="语音">🎤</button>
+                    <button class="input-icon-btn" onclick="quickAddNote()" title="发送">➤</button>
+                </div>
+                <div class="filter-chips" id="tag-chips">
+                    <button class="chip active" data-tag="all" onclick="setTagFilter('all',this)">全部</button>
+                </div>
+                <div class="timeline" id="notes-timeline">
+                    <div class="empty-hint">还没有笔记，说一句或写一句开始吧 ✨</div>
+                </div>
+            </div>
+            <button class="fab voice-fab" onclick="showVoiceNoteModal()">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+            </button>
+        </section>
+
+        <!-- ====== AI大脑（GET笔记风格） ====== -->
+        <section id="page-brain" class="page">
+            <div class="page-scroll">
+                <div class="page-top-bar">
+                    <h1>🧠 AI大脑</h1>
+                    <span class="text-secondary">越用越懂你</span>
+                </div>
+                <div class="brain-intro card">
+                    <p>AI记住了你所有的笔记和书籍分析。<br>向它提问，它会基于你的记录回答。</p>
+                </div>
+                <div class="brain-chat" id="brain-chat">
+                    <div class="chat-msg ai">
+                        <div class="chat-avatar">🧠</div>
+                        <div class="chat-bubble">你好！我是你的AI大脑。我记住了你所有的笔记和阅读记录。问我任何问题，或者让我帮你整理思路。</div>
+                    </div>
+                </div>
+                <div class="brain-suggestions">
+                    <button class="suggestion-chip" onclick="brainAsk('帮我总结最近的读书收获')">📖 总结收获</button>
+                    <button class="suggestion-chip" onclick="brainAsk('根据我的笔记，推荐相关书籍')">📚 推荐书籍</button>
+                    <button class="suggestion-chip" onclick="brainAsk('帮我整理最近的笔记，提取关键主题')">🗂️ 整理笔记</button>
+                    <button class="suggestion-chip" onclick="brainAsk('根据我的阅读记录，写一篇小红书笔记')">✍️ 写小红书</button>
+                </div>
+                <div class="brain-input-bar">
+                    <input type="text" id="brain-input" placeholder="问AI大脑任何问题..." onkeydown="if(event.key==='Enter')sendBrainMsg()">
+                    <button class="input-icon-btn" onclick="sendBrainMsg()">➤</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 我的 ====== -->
+        <section id="page-profile" class="page">
+            <div class="page-scroll">
+                <div class="profile-header">
+                    <div class="avatar">🧑‍💻</div>
+                    <h2 id="profile-nickname">阅读者</h2>
+                </div>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <span class="profile-stat-num" id="profile-books">0</span>
+                        <span class="profile-stat-label">分析书籍</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="profile-stat-num" id="profile-notes">0</span>
+                        <span class="profile-stat-label">笔记数</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="profile-stat-num" id="profile-days">0</span>
+                        <span class="profile-stat-label">使用天数</span>
+                    </div>
+                </div>
+                <div class="settings-list">
+                    <div class="settings-item" onclick="toggleTheme()">
+                        <span>🎨 深色模式</span>
+                        <div class="toggle" id="theme-toggle"><div class="toggle-knob"></div></div>
+                    </div>
+                    <div class="settings-item" onclick="showApiModal()">
+                        <span>🔑 DeepSeek API Key</span>
+                        <span class="text-secondary" id="api-key-status">未配置</span>
+                    </div>
+                    <div class="settings-item" onclick="exportData()">
+                        <span>📤 导出数据</span>
+                        <span class="text-secondary">JSON</span>
+                    </div>
+                    <div class="settings-item" onclick="showAbout()">
+                        <span>ℹ️ 关于深读</span>
+                        <span class="text-secondary">v3.0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 底部导航 ====== -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-nav="home" onclick="navigateTo('home')">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>首页</span>
+            </button>
+            <button class="nav-btn" data-nav="bookshelf" onclick="navigateTo('bookshelf')">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                <span>书架</span>
+            </button>
+            <button class="nav-btn center-btn" data-nav="analysis" onclick="navigateTo('analysis')">
+                <div class="center-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+            </button>
+            <button class="nav-btn" data-nav="notes" onclick="navigateTo('notes')">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span>笔记</span>
+            </button>
+            <button class="nav-btn" data-nav="brain" onclick="navigateTo('brain')">
+                <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>大脑</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- ====== 全屏分析进度遮罩 ====== -->
+    <div id="analysis-overlay" class="overlay hidden">
+        <div class="overlay-content">
+            <div class="analysis-animation">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring delay"></div>
+                <span class="analysis-emoji">🧠</span>
+            </div>
+            <p id="overlay-progress-text" class="overlay-text">正在分析...</p>
+            <div class="overlay-progress-bar">
+                <div id="overlay-progress-fill" class="overlay-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 笔记添加模态（GET笔记风格：多模态输入） ====== -->
+    <div id="note-modal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeNoteModal()"></div>
+        <div class="modal-sheet">
+            <div class="modal-handle"></div>
+            <h3 id="note-modal-title">添加笔记</h3>
+            <input type="text" id="note-input-title" placeholder="标题（可选）">
+            <div class="note-input-methods">
+                <button class="input-mode-btn active" data-mode="text" onclick="switchNoteMode('text',this)">✏️ 文字</button>
+                <button class="input-mode-btn" data-mode="voice" onclick="switchNoteMode('voice',this)">🎤 语音</button>
+                <button class="input-mode-btn" data-mode="photo" onclick="switchNoteMode('photo',this)">📷 拍照</button>
+                <button class="input-mode-btn" data-mode="link" onclick="switchNoteMode('link',this)">🔗 链接</button>
+            </div>
+            <div id="note-mode-text" class="note-mode-area active">
+                <textarea id="note-input-content" placeholder="写下你的想法..." rows="5"></textarea>
+            </div>
+            <div id="note-mode-voice" class="note-mode-area">
+                <div class="voice-record-area">
+                    <button class="voice-record-btn" id="voice-record-btn" onclick="toggleVoiceRecord()">
+                        <span class="voice-icon">🎤</span>
+                        <span class="voice-hint">点击开始录音</span>
+                    </button>
+                    <p id="voice-status" class="text-secondary" style="margin-top:8px;font-size:13px"></p>
+                </div>
+            </div>
+            <div id="note-mode-photo" class="note-mode-area">
+                <input type="file" id="note-photo-input" accept="image/*" capture="environment">
+                <p class="text-secondary" style="font-size:12px;margin-top:8px">拍摄书页或上传图片，AI自动识别</p>
+            </div>
+            <div id="note-mode-link" class="note-mode-area">
+                <input type="url" id="note-link-input" placeholder="粘贴文章链接，AI自动提取要点">
+                <p class="text-secondary" style="font-size:12px;margin-top:8px">支持公众号、知乎、豆瓣等链接</p>
+            </div>
+            <input type="text" id="note-input-tags" placeholder="标签（逗号分隔，如：读书,方法）" style="margin-top:10px">
+            <div class="modal-actions">
+                <button class="action-btn outline" onclick="closeNoteModal()">取消</button>
+                <button class="action-btn" onclick="saveNote()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== AI操作模态（GET笔记风格：点评/拷问/打磨/变作品） ====== -->
+    <div id="ai-action-modal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeAIAction()"></div>
+        <div class="modal-sheet modal-large">
+            <div class="modal-handle"></div>
+            <h3 id="ai-action-title">AI点评</h3>
+            <div class="ai-action-tabs">
+                <button class="ai-tab active" onclick="switchAITab('comment',this)">💡 点评</button>
+                <button class="ai-tab" onclick="switchAITab('challenge',this)">🤔 拷问</button>
+                <button class="ai-tab" onclick="switchAITab('polish',this)">✨ 打磨</button>
+                <button class="ai-tab" onclick="switchAITab('publish',this)">📤 变作品</button>
+            </div>
+            <div class="modal-scroll">
+                <div id="ai-action-original" class="ai-original-text"></div>
+                <div id="ai-action-result" class="ai-result-text">
+                    <div class="ai-thinking"><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span> AI正在思考...</div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="action-btn outline" onclick="closeAIAction()">关闭</button>
+                <button class="action-btn" id="ai-action-save-btn" onclick="saveAIResult()">保存为笔记</button>
+                <button class="action-btn" id="ai-action-copy-btn" onclick="copyAIResult()">复制</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 书籍详情模态 ====== -->
+    <div id="book-detail-modal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeBookDetail()"></div>
+        <div class="modal-sheet modal-large">
+            <div class="modal-handle"></div>
+            <div class="modal-scroll" id="book-detail-content"></div>
+            <div class="modal-actions">
+                <button class="action-btn outline danger" onclick="deleteBookFromDetail()">删除</button>
+                <button class="action-btn" onclick="closeBookDetail()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== API Key 模态 ====== -->
+    <div id="api-modal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeApiModal()"></div>
+        <div class="modal-sheet">
+            <div class="modal-handle"></div>
+            <h3>配置 DeepSeek API Key</h3>
+            <input type="password" id="api-key-input" placeholder="sk-...">
+            <p class="text-secondary" style="font-size:12px;margin-top:8px">用于AI书籍深度分析和AI大脑，密钥仅保存在本地</p>
+            <div class="modal-actions">
+                <button class="action-btn outline" onclick="closeApiModal()">取消</button>
+                <button class="action-btn" onclick="saveApiKey()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Toast ====== -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+    <script src="book-analysis.js"></script>
+</body>
+</html>
