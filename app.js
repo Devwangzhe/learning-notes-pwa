@@ -506,8 +506,12 @@ function renderNotes() {
     if (search) notes = notes.filter(n => n.title.toLowerCase().includes(search) || n.content.toLowerCase().includes(search));
     if (tagFilter !== 'all') notes = notes.filter(n => n.tags && n.tags.includes(tagFilter));
 
+    // 更新计数
+    const countEl = document.getElementById('notes-count');
+    if (countEl) countEl.textContent = notes.length + '条';
+
     if (notes.length === 0) {
-        container.innerHTML = '<div class="empty-hint">还没有笔记，点击 + 开始记录</div>';
+        container.innerHTML = '<div class="empty-hint">还没有笔记，说一句或写一句开始吧 ✨</div>';
         return;
     }
 
@@ -518,6 +522,12 @@ function renderNotes() {
             <div class="note-meta">
                 ${(n.tags||[]).map(t => `<span class="note-tag">${esc(t)}</span>`).join('')}
                 <span class="note-time">${timeAgo(n.createdAt)}</span>
+            </div>
+            <div class="note-actions">
+                <button class="note-action-btn" onclick="event.stopPropagation();aiActionOnNote('comment','${n.id}')">💡 点评</button>
+                <button class="note-action-btn" onclick="event.stopPropagation();aiActionOnNote('challenge','${n.id}')">🤔 拷问</button>
+                <button class="note-action-btn" onclick="event.stopPropagation();aiActionOnNote('polish','${n.id}')">✨ 打磨</button>
+                <button class="note-action-btn" onclick="event.stopPropagation();aiActionOnNote('publish','${n.id}')">📤 变作品</button>
             </div>
         </div>
     `).join('');
@@ -823,4 +833,285 @@ function showToast(msg) {
     el.textContent = msg;
     el.classList.remove('hidden');
     setTimeout(() => el.classList.add('hidden'), 2500);
+}
+
+// ================
+// GET笔记风格：语音记录
+// ================
+let isRecording = false;
+let recognition = null;
+
+function showVoiceNoteModal() {
+    showAddNoteModal();
+    // 切换到语音模式
+    setTimeout(() => switchNoteMode('voice', document.querySelector('.input-mode-btn[data-mode="voice"]')), 100);
+}
+window.showVoiceNoteModal = showVoiceNoteModal;
+
+function switchNoteMode(mode, el) {
+    document.querySelectorAll('.input-mode-btn').forEach(b => b.classList.remove('active'));
+    if (el) el.classList.add('active');
+    document.querySelectorAll('.note-mode-area').forEach(a => a.classList.remove('active'));
+    const target = document.getElementById('note-mode-' + mode);
+    if (target) target.classList.add('active');
+}
+window.switchNoteMode = switchNoteMode;
+
+function toggleVoiceRecord() {
+    if (isRecording) {
+        stopVoiceRecord();
+    } else {
+        startVoiceRecord();
+    }
+}
+window.toggleVoiceRecord = toggleVoiceRecord;
+
+function startVoiceRecord() {
+    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        showToast('浏览器不支持语音识别');
+        return;
+    }
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.lang = 'zh-CN';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    let transcript = '';
+    recognition.onresult = (e) => {
+        transcript = '';
+        for (let i = 0; i < e.results.length; i++) {
+            transcript += e.results[i][0].transcript;
+        }
+        const statusEl = document.getElementById('voice-status');
+        if (statusEl) statusEl.textContent = transcript || '正在识别...';
+    };
+
+    recognition.onend = () => {
+        isRecording = false;
+        const btn = document.getElementById('voice-record-btn');
+        if (btn) btn.classList.remove('recording');
+        // 填入文字区
+        const contentEl = document.getElementById('note-input-content');
+        if (contentEl && transcript) contentEl.value = transcript;
+        // 切回文字模式
+        switchNoteMode('text', document.querySelector('.input-mode-btn[data-mode="text"]'));
+    };
+
+    recognition.onerror = () => {
+        isRecording = false;
+        const btn = document.getElementById('voice-record-btn');
+        if (btn) btn.classList.remove('recording');
+        showToast('语音识别出错，请重试');
+    };
+
+    recognition.start();
+    isRecording = true;
+    const btn = document.getElementById('voice-record-btn');
+    if (btn) btn.classList.add('recording');
+    const statusEl = document.getElementById('voice-status');
+    if (statusEl) statusEl.textContent = '正在录音...';
+}
+
+function stopVoiceRecord() {
+    if (recognition) recognition.stop();
+    isRecording = false;
+    const btn = document.getElementById('voice-record-btn');
+    if (btn) btn.classList.remove('recording');
+}
+
+// ================
+// GET笔记风格：快速笔记（首页输入栏）
+// ================
+function quickAddNote() {
+    const input = document.getElementById('quick-note-input');
+    const text = input?.value?.trim();
+    if (!text) return;
+
+    const notes = Store.notes;
+    notes.unshift({
+        id: Date.now().toString(),
+        title: text.substring(0, 30),
+        content: text,
+        tags: ['闪念'],
+        source: '',
+        createdAt: new Date().toISOString(),
+    });
+    Store.notes = notes;
+    if (input) input.value = '';
+    renderNotes();
+    renderTagChips();
+    showToast('✅ 已记录');
+}
+window.quickAddNote = quickAddNote;
+
+// ================
+// GET笔记风格：AI操作（点评/拷问/打磨/变作品）
+// ================
+let currentAIAction = 'comment';
+let currentAINoteId = null;
+let currentAIResult = '';
+
+function aiActionOnNote(action, noteId) {
+    currentAIAction = action;
+    currentAINoteId = noteId;
+    currentAIResult = '';
+
+    const note = Store.notes.find(n => n.id === noteId);
+    if (!note) return;
+
+    const modal = document.getElementById('ai-action-modal');
+    const titleEl = document.getElementById('ai-action-title');
+    const originalEl = document.getElementById('ai-action-original');
+    const resultEl = document.getElementById('ai-action-result');
+
+    const actionNames = {comment:'💡 AI点评',challenge:'🤔 AI拷问',polish:'✨ AI打磨',publish:'📤 变作品'};
+    if (titleEl) titleEl.textContent = actionNames[action] || 'AI点评';
+    if (originalEl) originalEl.textContent = note.content;
+    if (resultEl) resultEl.innerHTML = '<div class="ai-thinking"><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span> AI正在思考...</div>';
+
+    // 高亮当前tab
+    document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+    const tabMap = {comment:0,challenge:1,polish:2,publish:3};
+    document.querySelectorAll('.ai-tab')[tabMap[action]]?.classList.add('active');
+
+    modal?.classList.remove('hidden');
+
+    // 模拟AI生成结果
+    setTimeout(() => generateAIAction(action, note), 1500);
+}
+window.aiActionOnNote = aiActionOnNote;
+
+function switchAITab(action, el) {
+    if (!currentAINoteId) return;
+    document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+    if (el) el.classList.add('active');
+    currentAIAction = action;
+    const resultEl = document.getElementById('ai-action-result');
+    if (resultEl) resultEl.innerHTML = '<div class="ai-thinking"><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span> AI正在思考...</div>';
+    const note = Store.notes.find(n => n.id === currentAINoteId);
+    if (note) setTimeout(() => generateAIAction(action, note), 1000);
+}
+window.switchAITab = switchAITab;
+
+function generateAIAction(action, note) {
+    const resultEl = document.getElementById('ai-action-result');
+    if (!resultEl) return;
+
+    const mocks = {
+        comment: `💡 <strong>点评</strong><br><br>这段笔记有一个很好的洞察：<strong>你抓住了核心问题</strong>。<br><br>亮点：思路清晰，有具体行动方向<br>建议：可以进一步量化目标，加上时间节点<br><br>🌟 这条笔记值得深入打磨，变成一篇完整的文章。`,
+        challenge: `🤔 <strong>拷问</strong><br><br>1. 你确定这是根本原因吗？还是表象？<br>2. 如果反过来想呢？<br>3. 有没有你忽略的前提假设？<br>4. 这个结论在什么条件下会不成立？<br><br>💡 真正的思考，是从质疑自己开始的。`,
+        polish: `✨ <strong>打磨后</strong><br><br>${note.content}<br><br>---<br>📝 <strong>优化版：</strong><br>${note.content}。关键在于持续实践，把知识内化为能力。每天进步1%，一年后你会进步37倍。<br><br>💡 建议加上具体案例和可执行的步骤。`,
+        publish: `📤 <strong>小红书版本</strong><br><br>📖 今日读书笔记<br><br>${note.content}<br><br>💭 有没有被戳中？<br>👉 收藏起来慢慢看<br><br>#读书笔记 #自我提升 #AI阅读<br><br>---<br>📤 <strong>朋友圈版本</strong><br><br>今天读到了一段特别有感触的话：${note.content.substring(0, 50)}... 📖`
+    };
+
+    currentAIResult = mocks[action] || '';
+    resultEl.innerHTML = currentAIResult;
+}
+
+function closeAIAction() {
+    document.getElementById('ai-action-modal')?.classList.add('hidden');
+    currentAINoteId = null;
+}
+window.closeAIAction = closeAIAction;
+
+function saveAIResult() {
+    if (!currentAIResult || !currentAINoteId) return;
+    const note = Store.notes.find(n => n.id === currentAINoteId);
+    const notes = Store.notes;
+    const actionNames = {comment:'AI点评',challenge:'AI拷问',polish:'AI打磨',publish:'AI作品'};
+    notes.unshift({
+        id: Date.now().toString(),
+        title: `${actionNames[currentAIAction] || 'AI'} - ${(note?.title || '').substring(0,15)}`,
+        content: currentAIResult.replace(/<[^>]*>/g, ''),
+        tags: ['AI生成', currentAIAction],
+        source: note?.title || '',
+        createdAt: new Date().toISOString(),
+    });
+    Store.notes = notes;
+    closeAIAction();
+    renderNotes();
+    renderTagChips();
+    showToast('✅ 已保存为笔记');
+}
+window.saveAIResult = saveAIResult;
+
+function copyAIResult() {
+    const text = currentAIResult.replace(/<[^>]*>/g, '');
+    navigator.clipboard?.writeText(text).then(() => showToast('✅ 已复制'));
+}
+window.copyAIResult = copyAIResult;
+
+// ================
+// GET笔记风格：AI大脑
+// ================
+function sendBrainMsg() {
+    const input = document.getElementById('brain-input');
+    const text = input?.value?.trim();
+    if (!text) return;
+    input.value = '';
+    brainAsk(text);
+}
+window.sendBrainMsg = sendBrainMsg;
+
+function brainAsk(question) {
+    const chat = document.getElementById('brain-chat');
+    if (!chat) return;
+
+    // 添加用户消息
+    chat.innerHTML += `
+        <div class="chat-msg user">
+            <div class="chat-avatar">👤</div>
+            <div class="chat-bubble">${esc(question)}</div>
+        </div>
+    `;
+
+    // 添加AI思考中
+    const thinkingId = 'brain-thinking-' + Date.now();
+    chat.innerHTML += `
+        <div class="chat-msg ai" id="${thinkingId}">
+            <div class="chat-avatar">🧠</div>
+            <div class="chat-bubble"><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span> 思考中...</div>
+        </div>
+    `;
+    chat.scrollTop = chat.scrollHeight;
+
+    // 基于笔记内容生成回答
+    setTimeout(() => {
+        const answer = generateBrainAnswer(question);
+        const thinkingEl = document.getElementById(thinkingId);
+        if (thinkingEl) {
+            thinkingEl.querySelector('.chat-bubble').innerHTML = answer;
+        }
+        chat.scrollTop = chat.scrollHeight;
+    }, 1200);
+}
+window.brainAsk = brainAsk;
+
+function generateBrainAnswer(question) {
+    const notes = Store.notes;
+    const books = Store.bookshelf;
+
+    // 简单关键词匹配
+    if (question.includes('总结') || question.includes('收获')) {
+        if (books.length === 0) return '你还没有分析过书籍哦。去分析一本书，我就能帮你总结了！📚';
+        const titles = books.slice(0, 3).map(b => b.title).join('、');
+        return `根据你的阅读记录，你最近读了：${titles}。<br><br>📖 你关注的核心主题是<strong>自我提升和思维方法</strong>。<br>💡 建议：把这些书的共性方法论整理成一套自己的行动体系。`;
+    }
+    if (question.includes('推荐') || question.includes('书')) {
+        return '基于你的阅读偏好，推荐：<br><br>1. 📖《掌控习惯》- 如果你喜欢《原子习惯》<br>2. 📖《思维模型》- 提升决策能力<br>3. 📖《刻意练习》- 科学提升技能<br><br>要不要分析其中一本？';
+    }
+    if (question.includes('整理') || question.includes('笔记')) {
+        if (notes.length === 0) return '还没有笔记，先去记录一些想法吧！';
+        const tags = new Set();
+        notes.forEach(n => (n.tags||[]).forEach(t => tags.add(t)));
+        return `你有 ${notes.length} 条笔记，涉及标签：${[...tags].slice(0,5).join('、')}。<br><br>🗂️ 建议：把同类笔记合并，提炼核心观点，用「打磨」功能变成可发布的内容。`;
+    }
+    if (question.includes('小红书') || question.includes('朋友圈') || question.includes('发布')) {
+        if (notes.length === 0) return '先记录一些内容，我帮你变成可发布的作品！';
+        const latest = notes[0];
+        return `帮你把最新笔记变成小红书版本：<br><br>📖 今日读书笔记<br>${latest.content.substring(0,80)}...<br><br>💭 有没有共鸣？<br>👉 收藏慢慢看<br><br>#读书笔记 #自我提升<br><br>💡 点击笔记的「📤 变作品」按钮可以获得更多版本！`;
+    }
+    // 通用回答
+    return `我记住了你 ${notes.length} 条笔记和 ${books.length} 本书籍分析。<br><br>你可以问我：<br>• 帮我总结最近的读书收获<br>• 推荐相关书籍<br>• 整理笔记<br>• 帮我写小红书/朋友圈<br><br>或者直接告诉我你想聊什么 🤔`;
 }
