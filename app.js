@@ -1,1 +1,826 @@
-LyoqCiAqIOWtpuS5oOeslOiusOW3peWFtyAtIOS4u+mAu+i+kQogKiBhcHAuanMKICovCgovLyA9PT09PT09PT09PT09PT09Ci8vIOWFqOWxgOeKtuaAgQovLyA9PT09PT09PT09PT09PT09CmNvbnN0IEFwcFN0YXRlID0gewogICAgY3VycmVudFRhYjogJ2Jvb2stYW5hbHlzaXMnLAogICAgbm90ZXM6IFtdLAogICAgYm9va0FuYWx5c2lzUmVzdWx0czogbnVsbAp9OwoKLy8gPT09PT09PT09PT09PT09PQovLyDliJ3lp4vljJYKLy8gPT09PT09PT09PT09PT09PQpkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdET01Db250ZW50TG9hZGVkJywgKCkgPT4gewogICAgaW5pdEFwcCgpOwp9KTsKCmZ1bmN0aW9uIGluaXRBcHAoKSB7CiAgICAvLyDliqDovb3nrJTorrDmlbDmja4KICAgIGxvYWROb3RlcygpOwogICAgCiAgICAvLyDnu5Hlrprkuovku7YKICAgIGJpbmRFdmVudHMoKTsKICAgIAogICAgLy8g5pi+56S65b2T5YmNVGFiCiAgICBzaG93VGFiKEFwcFN0YXRlLmN1cnJlbnRUYWIpOwogICAgCiAgICBjb25zb2xlLmxvZygn4pyFIOWtpuS5oOeslOiusOW3peWFt+W3suWQr+WKqCcpOwp9CgovLyA9PT09PT09PT09PT09PT09Ci8vIOS6i+S7tue7keWumgovLyA9PT09PT09PT09PT09PT09CmZ1bmN0aW9uIGJpbmRFdmVudHMoKSB7CiAgICAvLyBUYWLliIfmjaLvvIjmoYzpnaLnq6/vvIkKICAgIGNvbnN0IHRhYnMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcudGFiJyk7CiAgICB0YWJzLmZvckVhY2godGFiID0+IHsKICAgICAgICB0YWIuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoKSA9PiB7CiAgICAgICAgICAgIGNvbnN0IHRhYk5hbWUgPSB0YWIuZGF0YXNldC50YWI7CiAgICAgICAgICAgIHNob3dUYWIodGFiTmFtZSk7CiAgICAgICAgfSk7CiAgICB9KTsKICAgIAogICAgLy8g5bqV6YOo5a+86Iiq77yI5omL5py656uv77yJCiAgICBjb25zdCBuYXZCdG5zID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLm5hdi1idG4nKTsKICAgIG5hdkJ0bnMuZm9yRWFjaChidG4gPT4gewogICAgICAgIGJ0bi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHsKICAgICAgICAgICAgY29uc3QgbmF2TmFtZSA9IGJ0bi5kYXRhc2V0Lm5hdjsKICAgICAgICAgICAgc2hvd1RhYihuYXZOYW1lKTsKICAgICAgICB9KTsKICAgIH0pOwogICAgCiAgICAvLyDovpPlhaXmlrnlvI/liIfmjaIKICAgIGNvbnN0IGlucHV0T3B0aW9ucyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5pbnB1dC1vcHRpb24nKTsKICAgIGlucHV0T3B0aW9ucy5mb3JFYWNoKG9wdGlvbiA9PiB7CiAgICAgICAgb3B0aW9uLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4gewogICAgICAgICAgICBjb25zdCBtZXRob2QgPSBvcHRpb24uZGF0YXNldC5tZXRob2Q7CiAgICAgICAgICAgIHN3aXRjaElucHV0TWV0aG9kKG1ldGhvZCk7CiAgICAgICAgfSk7CiAgICB9KTsKICAgIAogICAgLy8g5byA5aeL5YiG5p6Q5oyJ6ZKu77yI5paH5a2X6L6T5YWl77yJCiAgICBjb25zdCBhbmFseXplQnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2FuYWx5emUtYnRuJyk7CiAgICBpZiAoYW5hbHl6ZUJ0bikgewogICAgICAgIGFuYWx5emVCdG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBzdGFydEJvb2tBbmFseXNpcyk7CiAgICB9CgogICAgLy8g5paH5Lu25LiK5Lyg55u45YWz5LqL5Lu2CiAgICBjb25zdCBmaWxlSW5wdXQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1pbnB1dCcpOwogICAgaWYgKGZpbGVJbnB1dCkgewogICAgICAgIGZpbGVJbnB1dC5hZGRFdmVudExpc3RlbmVyKCdjaGFuZ2UnLCBoYW5kbGVGaWxlU2VsZWN0KTsKICAgIH0KICAgIAogICAgY29uc3QgYW5hbHl6ZUZpbGVCdG4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnYW5hbHl6ZS1maWxlLWJ0bicpOwogICAgaWYgKGFuYWx5emVGaWxlQnRuKSB7CiAgICAgICAgYW5hbHl6ZUZpbGVCdG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBzdGFydEZpbGVBbmFseXNpcyk7CiAgICB9CiAgICAKICAgIGNvbnN0IGNsZWFyRmlsZUJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjbGVhci1maWxlLWJ0bicpOwogICAgaWYgKGNsZWFyRmlsZUJ0bikgewogICAgICAgIGNsZWFyRmlsZUJ0bi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGNsZWFyU2VsZWN0ZWRGaWxlKTsKICAgIH0KICAgIAogICAgLy8g5re75Yqg5Yiw56yU6K6w5oyJ6ZKuCiAgICBjb25zdCBhZGROb3RlQnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2FkZC1ub3RlLWJ0bicpOwogICAgaWYgKGFkZE5vdGVCdG4pIHsKICAgICAgICBhZGROb3RlQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgYWRkTm90ZSk7CiAgICB9CiAgICAKICAgIC8vIOa1ruWKqOa3u+WKoOaMiemSrgogICAgY29uc3QgZmFiQnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2FkZC1ub3RlLWJ0bi1mYWInKTsKICAgIGlmIChmYWJCdG4pIHsKICAgICAgICBmYWJCdG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoKSA9PiB7CiAgICAgICAgICAgIHNob3dBZGROb3RlTW9kYWwoKTsKICAgICAgICB9KTsKICAgIH0KfQoKLy8gPT09PT09PT09PT09PT09PQovLyBUYWLliIfmjaIKLy8gPT09PT09PT09PT09PT09PQpmdW5jdGlvbiBzaG93VGFiKHRhYk5hbWUpIHsKICAgIC8vIOabtOaWsOeKtuaAgQogICAgQXBwU3RhdGUuY3VycmVudFRhYiA9IHRhYk5hbWU7CiAgICAKICAgIC8vIOabtOaWsOahjOmdolRhYgogICAgY29uc3QgdGFicyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy50YWInKTsKICAgIHRhYnMuZm9yRWFjaCh0YWIgPT4gewogICAgICAgIGlmICh0YWIuZGF0YXNldC50YWIgPT09IHRhYk5hbWUpIHsKICAgICAgICAgICAgdGFiLmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpOwogICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgIHRhYi5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKTsKICAgICAgICB9CiAgICB9KTsKICAgIAogICAgLy8g5pu05paw5omL5py65bqV6YOo5a+86IiqCiAgICBjb25zdCBuYXZCdG5zID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLm5hdi1idG4nKTsKICAgIG5hdkJ0bnMuZm9yRWFjaChidG4gPT4gewogICAgICAgIGlmIChidG4uZGF0YXNldC5uYXYgPT09IHRhYk5hbWUpIHsKICAgICAgICAgICAgYnRuLmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpOwogICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgIGJ0bi5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKTsKICAgICAgICB9CiAgICB9KTsKICAgIAogICAgLy8g5pi+56S65a+55bqU5YaF5a65CiAgICBjb25zdCBjb250ZW50cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy50YWItY29udGVudCcpOwogICAgY29udGVudHMuZm9yRWFjaChjb250ZW50ID0+IHsKICAgICAgICBpZiAoY29udGVudC5pZCA9PT0gdGFiTmFtZSkgewogICAgICAgICAgICBjb250ZW50LmNsYXNzTGlzdC5hZGQoJ2FjdGl2ZScpOwogICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgIGNvbnRlbnQuY2xhc3NMaXN0LnJlbW92ZSgnYWN0aXZlJyk7CiAgICAgICAgfQogICAgfSk7CiAgICAKICAgIC8vIOeJueauiuWkhOeQhu+8muWmguaenOaYr+eslOiusFRhYu+8jOWIt+aWsOWIl+ihqAogICAgaWYgKHRhYk5hbWUgPT09ICdub3RlcycpIHsKICAgICAgICByZW5kZXJOb3Rlc0xpc3QoKTsKICAgIH0KfQoKLy8gPT09PT09PT09PT09PT09PQovLyDovpPlhaXmlrnlvI/liIfmjaIKLy8gPT09PT09PT09PT09PT09PQpmdW5jdGlvbiBzd2l0Y2hJbnB1dE1ldGhvZChtZXRob2QpIHsKICAgIC8vIOabtOaWsOaMiemSrueKtuaAgQogICAgY29uc3Qgb3B0aW9ucyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5pbnB1dC1vcHRpb24nKTsKICAgIG9wdGlvbnMuZm9yRWFjaChvcHRpb24gPT4gewogICAgICAgIGlmIChvcHRpb24uZGF0YXNldC5tZXRob2QgPT09IG1ldGhvZCkgewogICAgICAgICAgICBvcHRpb24uY2xhc3NMaXN0LmFkZCgnYWN0aXZlJyk7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgb3B0aW9uLmNsYXNzTGlzdC5yZW1vdmUoJ2FjdGl2ZScpOwogICAgICAgIH0KICAgIH0pOwogICAgCiAgICAvLyDmmL7npLrlr7nlupTovpPlhaXljLrln58KICAgIGNvbnN0IG1ldGhvZHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuaW5wdXQtbWV0aG9kJyk7CiAgICBtZXRob2RzLmZvckVhY2gobSA9PiB7CiAgICAgICAgaWYgKG0uaWQgPT09IGBpbnB1dC0ke21ldGhvZH1gKSB7CiAgICAgICAgICAgIG0uY2xhc3NMaXN0LmFkZCgnYWN0aXZlJyk7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgbS5jbGFzc0xpc3QucmVtb3ZlKCdhY3RpdmUnKTsKICAgICAgICB9CiAgICB9KTsKfQoKLy8gPT09PT09PT09PT09PT09PQovLyDnrJTorrDnrqHnkIYKLy8gPT09PT09PT09PT09PT09PQpmdW5jdGlvbiBsb2FkTm90ZXMoKSB7CiAgICBjb25zdCBzdG9yZWQgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnbGVhcm5pbmctbm90ZXMnKTsKICAgIGlmIChzdG9yZWQpIHsKICAgICAgICB0cnkgewogICAgICAgICAgICBBcHBTdGF0ZS5ub3RlcyA9IEpTT04ucGFyc2Uoc3RvcmVkKTsKICAgICAgICB9IGNhdGNoIChlKSB7CiAgICAgICAgICAgIGNvbnNvbGUuZXJyb3IoJ+WKoOi9veeslOiusOWksei0pTonLCBlKTsKICAgICAgICAgICAgQXBwU3RhdGUubm90ZXMgPSBbXTsKICAgICAgICB9CiAgICB9Cn0KCmZ1bmN0aW9uIHNhdmVOb3RlcygpIHsKICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdsZWFybmluZy1ub3RlcycsIEpTT04uc3RyaW5naWZ5KEFwcFN0YXRlLm5vdGVzKSk7Cn0KCmZ1bmN0aW9uIGFkZE5vdGUobm90ZURhdGEpIHsKICAgIGNvbnN0IG5ld05vdGUgPSB7CiAgICAgICAgaWQ6IERhdGUubm93KCkudG9TdHJpbmcoKSwKICAgICAgICB0aXRsZTogbm90ZURhdGEudGl0bGUgfHwgJ+aXoOagh+mimCcsCiAgICAgICAgY29udGVudDogbm90ZURhdGEuY29udGVudCB8fCAnJywKICAgICAgICB0YWdzOiBub3RlRGF0YS50YWdzIHx8IFtdLAogICAgICAgIGNhdGVnb3J5OiBub3RlRGF0YS5jYXRlZ29yeSB8fCAn5pyq5YiG57G7JywKICAgICAgICBjcmVhdGVkQXQ6IG5ldyBEYXRlKCkudG9JU09TdHJpbmcoKSwKICAgICAgICB1cGRhdGVkQXQ6IG5ldyBEYXRlKCkudG9JU09TdHJpbmcoKQogICAgfTsKICAgIAogICAgQXBwU3RhdGUubm90ZXMudW5zaGlmdChuZXdOb3RlKTsKICAgIHNhdmVOb3RlcygpOwogICAgcmVuZGVyTm90ZXNMaXN0KCk7CiAgICAKICAgIHJldHVybiBuZXdOb3RlOwp9CgpmdW5jdGlvbiBkZWxldGVOb3RlKG5vdGVJZCkgewogICAgQXBwU3RhdGUubm90ZXMgPSBBcHBTdGF0ZS5ub3Rlcy5maWx0ZXIobm90ZSA9PiBub3RlLmlkICE9PSBub3RlSWQpOwogICAgc2F2ZU5vdGVzKCk7CiAgICByZW5kZXJOb3Rlc0xpc3QoKTsKfQoKZnVuY3Rpb24gcmVuZGVyTm90ZXNMaXN0KCkgewogICAgY29uc3Qgbm90ZXNMaXN0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ25vdGVzLWxpc3QnKTsKICAgIGlmICghbm90ZXNMaXN0KSByZXR1cm47CiAgICAKICAgIGlmIChBcHBTdGF0ZS5ub3Rlcy5sZW5ndGggPT09IDApIHsKICAgICAgICBub3Rlc0xpc3QuaW5uZXJIVE1MID0gYAogICAgICAgICAgICA8ZGl2IGNsYXNzPSJlbXB0eS1zdGF0ZSI+CiAgICAgICAgICAgICAgICA8cD7wn5OdIOi/mOayoeacieeslOiusDwvcD4KICAgICAgICAgICAgICAgIDxwPueCueWHu+WPs+S4i+inkiArIOaMiemSrua3u+WKoDwvcD4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgYDsKICAgICAgICByZXR1cm47CiAgICB9CiAgICAKICAgIG5vdGVzTGlzdC5pbm5lckhUTUwgPSBBcHBTdGF0ZS5ub3Rlcy5tYXAobm90ZSA9PiBgCiAgICAgICAgPGRpdiBjbGFzcz0ibm90ZS1pdGVtIiBkYXRhLWlkPSIke25vdGUuaWR9Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0ibm90ZS10aXRsZSI+JHtlc2NhcGVIdG1sKG5vdGUudGl0bGUpfTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJub3RlLXByZXZpZXciPiR7ZXNjYXBlSHRtbChub3RlLmNvbnRlbnQuc3Vic3RyaW5nKDAsIDEwMCkpfTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJub3RlLW1ldGEiPgogICAgICAgICAgICAgICAgPHNwYW4+8J+TgSAke2VzY2FwZUh0bWwobm90ZS5jYXRlZ29yeSl9PC9zcGFuPgogICAgICAgICAgICAgICAgPHNwYW4+8J+VkiAke2Zvcm1hdERhdGUobm90ZS51cGRhdGVkQXQpfTwvc3Bhbj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICBgKS5qb2luKCcnKTsKICAgIAogICAgLy8g57uR5a6a56yU6K6w54K55Ye75LqL5Lu2CiAgICBjb25zdCBub3RlSXRlbXMgPSBub3Rlc0xpc3QucXVlcnlTZWxlY3RvckFsbCgnLm5vdGUtaXRlbScpOwogICAgbm90ZUl0ZW1zLmZvckVhY2goaXRlbSA9PiB7CiAgICAgICAgaXRlbS5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHsKICAgICAgICAgICAgY29uc3Qgbm90ZUlkID0gaXRlbS5kYXRhc2V0LmlkOwogICAgICAgICAgICB2aWV3Tm90ZShub3RlSWQpOwogICAgICAgIH0pOwogICAgfSk7Cn0KCmZ1bmN0aW9uIHZpZXdOb3RlKG5vdGVJZCkgewogICAgY29uc3Qgbm90ZSA9IEFwcFN0YXRlLm5vdGVzLmZpbmQobiA9PiBuLmlkID09PSBub3RlSWQpOwogICAgaWYgKCFub3RlKSByZXR1cm47CiAgICAKICAgIC8vIFRPRE86IOaYvuekuueslOiusOivpuaDhe+8iOWPr+S7peaJk+W8gOaooeaAgeahhuaIlui3s+i9rOaWsOmhtemdou+8iQogICAgYWxlcnQoYOafpeeci+eslOiusDogJHtub3RlLnRpdGxlfVxuXG4ke25vdGUuY29udGVudC5zdWJzdHJpbmcoMCwgMjAwKX0uLi5gKTsKfQoKLy8gPT09PT09PT09PT09PT09PQovLyDkuabnsY3liIbmnpDnu5Pmnpzlr7zlhaXnrJTorrAKLy8gPT09PT09PT09PT09PT09PQpmdW5jdGlvbiBpbXBvcnRCb29rQW5hbHlzaXNUb05vdGVzKCkgewogICAgaWYgKCFBcHBTdGF0ZS5ib29rQW5hbHlzaXNSZXN1bHRzKSB7CiAgICAgICAgYWxlcnQoJ+KaoO+4jyDor7flhYjlrozmiJDkuabnsY3liIbmnpAnKTsKICAgICAgICByZXR1cm47CiAgICB9CiAgICAKICAgIGNvbnN0IHJlc3VsdHMgPSBBcHBTdGF0ZS5ib29rQW5hbHlzaXNSZXN1bHRzOwogICAgCiAgICAvLyDmnoTlu7rnrJTorrDlhoXlrrkKICAgIGxldCBjb250ZW50ID0gYCMgJHtyZXN1bHRzLmJvb2tUaXRsZSB8fCAn5Lmm57GN5YiG5p6QJ31cblxuYDsKICAgIGNvbnRlbnQgKz0gYCMjIPCfk50g5LiA5Y+l6K+d5oC757uTXG4ke3Jlc3VsdHMub25lU2VudGVuY2VTdW1tYXJ5fVxuXG5gOwogICAgY29udGVudCArPSBgIyMg8J+noCDkvZzogIXmgJ3nu7TmoYbmnrZcbiR7cmVzdWx0cy50aGlua2luZ0ZyYW1ld29ya31cblxuYDsKICAgIGNvbnRlbnQgKz0gYCMjIPCfjq8g5qC45b+D6KeC54K5XG4ke3Jlc3VsdHMuY29yZVZpZXdwb2ludHMubWFwKCh2LCBpKSA9PiBgJHtpKzF9LiAke3Z9YCkuam9pbignXG4nKX1cblxuYDsKICAgIGNvbnRlbnQgKz0gYCMjIPCfm6DvuI8g5pa55rOV6K66XG4ke3Jlc3VsdHMubWV0aG9kb2xvZ3kubWFwKG0gPT4gYC0gJHttfWApLmpvaW4oJ1xuJyl9XG5cbmA7CiAgICBjb250ZW50ICs9IGAjIyDwn5KhIOWQr+WPkeaUtuiOt1xuJHtyZXN1bHRzLmluc3BpcmF0aW9ucy5tYXAoaSA9PiBgLSAke2l9YCkuam9pbignXG4nKX1cblxuYDsKICAgIGNvbnRlbnQgKz0gYCMjIPCfmoAg6KGM5Yqo6K6h5YiSXG4ke3Jlc3VsdHMuYWN0aW9uUGxhbi5tYXAoYSA9PiBgLSAke2F9YCkuam9pbignXG4nKX1cbmA7CiAgICAKICAgIGNvbnN0IG5vdGVEYXRhID0gewogICAgICAgIHRpdGxlOiBg8J+TmiAke3Jlc3VsdHMuYm9va1RpdGxlIHx8ICfkuabnsY3liIbmnpAnfWAsCiAgICAgICAgY29udGVudDogY29udGVudCwKICAgICAgICB0YWdzOiBbJ+S5puexjeWIhuaekCcsICdBSeeUn+aIkCddLAogICAgICAgIGNhdGVnb3J5OiAn5Lmm57GN56yU6K6wJwogICAgfTsKICAgIAogICAgYWRkTm90ZShub3RlRGF0YSk7CiAgICAKICAgIC8vIOWIh+aNouWIsOeslOiusFRhYgogICAgc2hvd1RhYignbm90ZXMnKTsKICAgIAogICAgYWxlcnQoJ+KchSDlt7Llr7zlhaXlrabkuaDnrJTorrDvvIEnKTsKfQoKLy8gPT09PT09PT09PT09PT09PQovLyDlt6Xlhbflh73mlbAKLy8gPT09PT09PT09PT09PT09PQpmdW5jdGlvbiBlc2NhcGVIdG1sKHRleHQpIHsKICAgIGNvbnN0IGRpdiA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpOwogICAgZGl2LnRleHRDb250ZW50ID0gdGV4dDsKICAgIHJldHVybiBkaXYuaW5uZXJIVE1MOwp9CgpmdW5jdGlvbiBmb3JtYXREYXRlKGlzb1N0cmluZykgewogICAgY29uc3QgZGF0ZSA9IG5ldyBEYXRlKGlzb1N0cmluZyk7CiAgICBjb25zdCBub3cgPSBuZXcgRGF0ZSgpOwogICAgY29uc3QgZGlmZiA9IG5vdyAtIGRhdGU7CiAgICAKICAgIGlmIChkaWZmIDwgNjAwMDApIHJldHVybiAn5Yia5YiaJzsKICAgIGlmIChkaWZmIDwgMzYwMDAwMCkgcmV0dXJuIGAke01hdGguZmxvb3IoZGlmZiAvIDYwMDAwKX3liIbpkp/liY1gOwogICAgaWYgKGRpZmYgPCA4NjQwMDAwMCkgcmV0dXJuIGAke01hdGguZmxvb3IoZGlmZiAvIDM2MDAwMDApfeWwj+aXtuWJjWA7CiAgICAKICAgIHJldHVybiBkYXRlLnRvTG9jYWxlRGF0ZVN0cmluZygnemgtQ04nKTsKfQoKLy8gPT09PT09PT09PT09PT09PQovLyDlr7zlh7rlip/og70KLy8gPT09PT09PT09PT09PT09PQpmdW5jdGlvbiBleHBvcnRUb1dvcmQoKSB7CiAgICAvLyBUT0RPOiDkvb/nlKggZG9jeC5qcyDnlJ/miJBXb3Jk5paH5qGjCiAgICBhbGVydCgn8J+apyBXb3Jk5a+85Ye65Yqf6IO95byA5Y+R5LitLi4uJyk7Cn0KCi8vID09PT09PT09PT09PT09PT0KLy8gUFdBIFNlcnZpY2UgV29ya2VyIOazqOWGjAovLyA9PT09PT09PT09PT09PT09CmlmICgnc2VydmljZVdvcmtlcicgaW4gbmF2aWdhdG9yKSB7CiAgICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcignbG9hZCcsICgpID0+IHsKICAgICAgICBuYXZpZ2F0b3Iuc2VydmljZVdvcmtlci5yZWdpc3Rlcignc2VydmljZS13b3JrZXIuanMnKQogICAgICAgICAgICAudGhlbihyZWdpc3RyYXRpb24gPT4gewogICAgICAgICAgICAgICAgY29uc29sZS5sb2coJ+KchSBTZXJ2aWNlIFdvcmtlciDms6jlhozmiJDlip86JywgcmVnaXN0cmF0aW9uKTsKICAgICAgICAgICAgfSkKICAgICAgICAgICAgLmNhdGNoKGVycm9yID0+IHsKICAgICAgICAgICAgICAgIGNvbnNvbGUubG9nKCfinYwgU2VydmljZSBXb3JrZXIg5rOo5YaM5aSx6LSlOicsIGVycm9yKTsKICAgICAgICAgICAgfSk7CiAgICB9KTsKfQoKLy8g5a+85Ye65YWo5bGA5Ye95pWwCndpbmRvdy5zaG93VGFiID0gc2hvd1RhYjsKd2luZG93LnN0YXJ0Qm9va0FuYWx5c2lzID0gc3RhcnRCb29rQW5hbHlzaXM7CndpbmRvdy5pbXBvcnRCb29rQW5hbHlzaXNUb05vdGVzID0gaW1wb3J0Qm9va0FuYWx5c2lzVG9Ob3RlczsKCi8vID09PT09PT09PT09PT09PT0KLy8g5paH5Lu25LiK5Lyg5aSE55CGCi8vID09PT09PT09PT09PT09PT0KbGV0IHNlbGVjdGVkRmlsZSA9IG51bGw7CmxldCBmaWxlVGV4dENvbnRlbnQgPSAnJzsKCmZ1bmN0aW9uIGhhbmRsZUZpbGVTZWxlY3QoZSkgewogICAgY29uc3QgZmlsZSA9IGUudGFyZ2V0LmZpbGVzWzBdOwogICAgaWYgKCFmaWxlKSByZXR1cm47CiAgICAKICAgIHNlbGVjdGVkRmlsZSA9IGZpbGU7CiAgICAKICAgIC8vIOaYvuekuuW3sumAieaWh+S7tuWQjQogICAgY29uc3QgZmlsZVNlbGVjdGVkRWwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1zZWxlY3RlZCcpOwogICAgY29uc3QgZmlsZU5hbWVFbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmaWxlLW5hbWUnKTsKICAgIGlmIChmaWxlU2VsZWN0ZWRFbCAmJiBmaWxlTmFtZUVsKSB7CiAgICAgICAgZmlsZU5hbWVFbC50ZXh0Q29udGVudCA9IGDwn5OEICR7ZmlsZS5uYW1lfSAoJHtmb3JtYXRGaWxlU2l6ZShmaWxlLnNpemUpfSlgOwogICAgICAgIGZpbGVTZWxlY3RlZEVsLmNsYXNzTGlzdC5yZW1vdmUoJ2hpZGRlbicpOwogICAgfQogICAgCiAgICAvLyDor7vlj5bmlofku7blhoXlrrkKICAgIGNvbnN0IHJlYWRlciA9IG5ldyBGaWxlUmVhZGVyKCk7CiAgICByZWFkZXIub25sb2FkID0gZnVuY3Rpb24oZXZlbnQpIHsKICAgICAgICBjb25zdCBjb250ZW50ID0gZXZlbnQudGFyZ2V0LnJlc3VsdDsKICAgICAgICAKICAgICAgICBpZiAoZmlsZS5uYW1lLmVuZHNXaXRoKCcucGRmJykpIHsKICAgICAgICAgICAgLy8gUERG5paH5Lu277ya5o+Q5Y+W5paH5pys77yI566A5Y2V5pa55byP77yMTVZQ55So5o+Q56S677yJCiAgICAgICAgICAgIGZpbGVUZXh0Q29udGVudCA9IGBbUERG5paH5Lu2OiAke2ZpbGUubmFtZX1dXG5cbuazqOaEjzogUERG5a6M5pW06Kej5p6Q6ZyA6KaB5ZCO56uv5pSv5oyB44CC5b2T5YmN5Y+v57KY6LS0UERG5Lit55qE5paH5a2X5YaF5a655Yiw44CM57KY6LS05paH5a2X44CN5qih5byP6L+b6KGM5YiG5p6Q44CCYDsKICAgICAgICAgICAgYWxlcnQoJ/CfkqEg5o+Q56S6OiBQREbmlofku7blu7rorq7kvb/nlKjjgIznspjotLTmloflrZfjgI3mqKHlvI/vvIzlpI3liLZQREblhoXlrrnlkI7nspjotLTliIbmnpDmlYjmnpzmm7TkvbPjgIJcbu+8iOaIluetieW+heWQjue7reeJiOacrOaOpeWFpVBERuino+aekOacjeWKoe+8iScpOwogICAgICAgIH0gZWxzZSBpZiAoZmlsZS5uYW1lLmVuZHNXaXRoKCcuZG9jeCcpKSB7CiAgICAgICAgICAgIC8vIERPQ1jmlofku7bvvJrmj5DnpLrnlKjmiLcKICAgICAgICAgICAgZmlsZVRleHRDb250ZW50ID0gYFtET0NY5paH5Lu2OiAke2ZpbGUubmFtZX1dXG5cbuazqOaEjzogRE9DWOino+aekOmcgOimgeWQjuerr+aUr+aMgeOAguW7uuiuruWwhldvcmTlhoXlrrnlpI3liLbliLDjgIznspjotLTmloflrZfjgI3mqKHlvI/jgIJgOwogICAgICAgICAgICBhbGVydCgn8J+SoSDmj5DnpLo6IFdvcmTmlofmoaPlu7rorq7lsIblhoXlrrnlpI3liLbliLDjgIznspjotLTmloflrZfjgI3mqKHlvI/liIbmnpDjgIInKTsKICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAvLyBUWFTmlofku7bvvJrnm7TmjqXkvb/nlKjlhoXlrrkKICAgICAgICAgICAgZmlsZVRleHRDb250ZW50ID0gY29udGVudDsKICAgICAgICB9CiAgICB9OwogICAgCiAgICBpZiAoZmlsZS5uYW1lLmVuZHNXaXRoKCcudHh0JykpIHsKICAgICAgICByZWFkZXIucmVhZEFzVGV4dChmaWxlKTsKICAgIH0gZWxzZSBpZiAoZmlsZS5uYW1lLmVuZHNXaXRoKCcucGRmJykpIHsKICAgICAgICAvLyBQREbnlKhBcnJheUJ1ZmZlcuWwneivleeugOWNleino+aekAogICAgICAgIHJlYWRlci5yZWFkQXNBcnJheUJ1ZmZlcihmaWxlKTsKICAgIH0gZWxzZSBpZiAoZmlsZS5uYW1lLmVuZHNXaXRoKCcuZG9jeCcpKSB7CiAgICAgICAgcmVhZGVyLnJlYWRBc0FycmF5QnVmZmVyKGZpbGUpOwogICAgfSBlbHNlIHsKICAgICAgICByZWFkZXIucmVhZEFzVGV4dChmaWxlKTsKICAgIH0KfQoKZnVuY3Rpb24gY2xlYXJTZWxlY3RlZEZpbGUoKSB7CiAgICBzZWxlY3RlZEZpbGUgPSBudWxsOwogICAgZmlsZVRleHRDb250ZW50ID0gJyc7CiAgICBjb25zdCBmaWxlSW5wdXQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1pbnB1dCcpOwogICAgY29uc3QgZmlsZVNlbGVjdGVkRWwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmlsZS1zZWxlY3RlZCcpOwogICAgaWYgKGZpbGVJbnB1dCkgZmlsZUlucHV0LnZhbHVlID0gJyc7CiAgICBpZiAoZmlsZVNlbGVjdGVkRWwpIGZpbGVTZWxlY3RlZEVsLmNsYXNzTGlzdC5hZGQoJ2hpZGRlbicpOwp9Cgphc3luYyBmdW5jdGlvbiBzdGFydEZpbGVBbmFseXNpcygpIHsKICAgIGlmICghc2VsZWN0ZWRGaWxlKSB7CiAgICAgICAgYWxlcnQoJ+ivt+WFiOmAieaLqeS4gOS4quaWh+S7ticpOwogICAgICAgIHJldHVybjsKICAgIH0KICAgIAogICAgaWYgKCFmaWxlVGV4dENvbnRlbnQgfHwgZmlsZVRleHRDb250ZW50LnN0YXJ0c1dpdGgoJ1tQREYnKSB8fCBmaWxlVGV4dENvbnRlbnQuc3RhcnRzV2l0aCgnW0RPQ1gnKSkgewogICAgICAgIGFsZXJ0KCfor6Xmlofku7bnsbvlnovmmoLkuI3mlK/mjIHnm7TmjqXliIbmnpDvvIzor7fkvb/nlKjjgIznspjotLTmloflrZfjgI3mqKHlvI/jgIInKTsKICAgICAgICByZXR1cm47CiAgICB9CiAgICAKICAgIC8vIOiOt+WPluS5puWQjQogICAgY29uc3QgdGl0bGVJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmaWxlLWJvb2stdGl0bGUnKTsKICAgIGNvbnN0IGJvb2tUaXRsZSA9IHRpdGxlSW5wdXQgPyB0aXRsZUlucHV0LnZhbHVlLnRyaW0oKSA6ICcnOwogICAgCiAgICAvLyDorr7nva7liLDlhajlsYDnirbmgIHku6Xkvr/liIbmnpAKICAgIGNvbnN0IHRleHRBcmVhID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Jvb2staW5wdXQnKTsKICAgIGlmICh0ZXh0QXJlYSkgdGV4dEFyZWEudmFsdWUgPSBmaWxlVGV4dENvbnRlbnQ7CiAgICBjb25zdCB0aXRsZUZpZWxkID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Jvb2stdGl0bGUnKTsKICAgIGlmICh0aXRsZUZpZWxkICYmIGJvb2tUaXRsZSkgdGl0bGVGaWVsZC52YWx1ZSA9IGJvb2tUaXRsZTsKICAgIGVsc2UgaWYgKHRpdGxlRmllbGQgJiYgIWJvb2tUaXRsZSAmJiBzZWxlY3RlZEZpbGUpIHsKICAgICAgICAvLyDku47mlofku7blkI3mj5Dlj5bkuablkI0KICAgICAgICB0aXRsZUZpZWxkLnZhbHVlID0gc2VsZWN0ZWRGaWxlLm5hbWUucmVwbGFjZSgvXC4odHh0fHBkZnxkb2N4KSQvaSwgJycpOwogICAgfQogICAgCiAgICAvLyDosIPnlKjliIbmnpAKICAgIGF3YWl0IHN0YXJ0Qm9va0FuYWx5c2lzKCk7Cn0KCmZ1bmN0aW9uIGZvcm1hdEZpbGVTaXplKGJ5dGVzKSB7CiAgICBpZiAoYnl0ZXMgPCAxMDI0KSByZXR1cm4gYnl0ZXMgKyAnIEInOwogICAgaWYgKGJ5dGVzIDwgMTAyNCAqIDEwMjQpIHJldHVybiAoYnl0ZXMgLyAxMDI0KS50b0ZpeGVkKDEpICsgJyBLQic7CiAgICByZXR1cm4gKGJ5dGVzIC8gKDEwMjQgKiAxMDI0KSkudG9GaXhlZCgxKSArICcgTUInOwp9
+/**
+ * 深读 - AI书籍分析 PWA 主逻辑 v2.0
+ * 参考微信读书/得到/Flomo/Notion设计
+ */
+
+// ================
+// 数据层
+// ================
+const Store = {
+    _defaults: { notes: [], bookshelf: [], settings: { apiKey: '', theme: 'dark', nickname: '阅读者', firstDay: new Date().toISOString() } },
+
+    get(key) {
+        try {
+            const raw = localStorage.getItem('shendu_' + key);
+            return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(this._defaults[key]));
+        } catch { return JSON.parse(JSON.stringify(this._defaults[key])); }
+    },
+    set(key, val) { localStorage.setItem('shendu_' + key, JSON.stringify(val)); },
+
+    get notes() { return this.get('notes'); },
+    set notes(v) { this.set('notes', v); },
+    get bookshelf() { return this.get('bookshelf'); },
+    set bookshelf(v) { this.set('bookshelf', v); },
+    get settings() { return this.get('settings'); },
+    set settings(v) { this.set('settings', v); },
+};
+
+// ================
+// 全局状态
+// ================
+const App = {
+    currentPage: 'home',
+    analysisStep: 1,
+    selectedMethod: 'text',
+    currentResults: null,
+    editingNoteId: null,
+    viewingBookId: null,
+    selectedFile: null,
+    fileTextContent: '',
+};
+
+// ================
+// 初始化
+// ================
+document.addEventListener('DOMContentLoaded', () => {
+    applyTheme();
+    updateGreeting();
+    updateHomeStats();
+    renderRecentBooks();
+    updateProfile();
+    updateApiKeyStatus();
+
+    // PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    }
+});
+
+// ================
+// 导航
+// ================
+function navigateTo(page) {
+    App.currentPage = page;
+
+    // 切换页面
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.add('active');
+
+    // 更新导航
+    document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.nav === page);
+    });
+
+    // 页面初始化
+    if (page === 'home') { updateHomeStats(); renderRecentBooks(); updateGreeting(); }
+    if (page === 'bookshelf') renderBookshelf();
+    if (page === 'notes') { renderNotes(); renderTagChips(); }
+    if (page === 'profile') updateProfile();
+    if (page === 'analysis') { resetAnalysis(); }
+}
+window.navigateTo = navigateTo;
+
+// ================
+// 首页
+// ================
+function updateGreeting() {
+    const h = new Date().getHours();
+    let g = '晚上好 🌙';
+    if (h >= 5 && h < 12) g = '早上好 ☀️';
+    else if (h >= 12 && h < 14) g = '中午好 🌤️';
+    else if (h >= 14 && h < 18) g = '下午好 👋';
+    const el = document.getElementById('greeting-text');
+    if (el) el.textContent = g;
+
+    const dateEl = document.getElementById('greeting-date');
+    if (dateEl) {
+        const now = new Date();
+        const days = ['日','一','二','三','四','五','六'];
+        dateEl.textContent = `${now.getMonth()+1}月${now.getDate()}日 星期${days[now.getDay()]}`;
+    }
+}
+
+function updateHomeStats() {
+    const books = Store.bookshelf;
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekAgo = new Date(today.getTime() - 7 * 86400000);
+
+    const todayCount = books.filter(b => new Date(b.analyzedAt) >= today).length;
+    const weekCount = books.filter(b => new Date(b.analyzedAt) >= weekAgo).length;
+
+    const el1 = document.getElementById('stat-today');
+    const el2 = document.getElementById('stat-week');
+    const el3 = document.getElementById('stat-total');
+    if (el1) el1.textContent = todayCount;
+    if (el2) el2.textContent = weekCount;
+    if (el3) el3.textContent = books.length;
+}
+
+function renderRecentBooks() {
+    const container = document.getElementById('recent-books');
+    if (!container) return;
+    const books = Store.bookshelf.slice(0, 10);
+
+    if (books.length === 0) {
+        container.innerHTML = '<div class="empty-hint">还没有分析过书籍，点击上方「分析新书」开始</div>';
+        return;
+    }
+
+    container.innerHTML = books.map(b => `
+        <div class="recent-book-card" style="background:${b.coverColor || gradientFromTitle(b.title)}" onclick="viewBookDetail('${b.id}')">
+            <div class="book-title">${esc(b.title)}</div>
+            <div class="book-date">${timeAgo(b.analyzedAt)}</div>
+        </div>
+    `).join('');
+}
+
+// ================
+// 书架
+// ================
+let bookFilter = 'all';
+
+function setBookFilter(filter, el) {
+    bookFilter = filter;
+    document.querySelectorAll('#page-bookshelf .chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    renderBookshelf();
+}
+window.setBookFilter = setBookFilter;
+
+function renderBookshelf() {
+    const container = document.getElementById('bookshelf-grid');
+    if (!container) return;
+
+    let books = Store.bookshelf;
+    const search = (document.getElementById('bookshelf-search')?.value || '').trim().toLowerCase();
+    if (search) books = books.filter(b => b.title.toLowerCase().includes(search));
+    if (bookFilter === 'recent') books = books.slice(0, 6);
+
+    if (books.length === 0) {
+        container.innerHTML = '<div class="empty-hint">书架空空如也，去分析你的第一本书吧</div>';
+        return;
+    }
+
+    container.innerHTML = books.map(b => `
+        <div class="bookshelf-card" style="background:${b.coverColor || gradientFromTitle(b.title)}" onclick="viewBookDetail('${b.id}')">
+            <div>
+                <div class="bs-title">${esc(b.title)}</div>
+                <div class="bs-summary">${esc(b.summary || '')}</div>
+            </div>
+            <div class="bs-date">${formatDate(b.analyzedAt)}</div>
+        </div>
+    `).join('');
+}
+
+function viewBookDetail(id) {
+    const book = Store.bookshelf.find(b => b.id === id);
+    if (!book) return;
+    App.viewingBookId = id;
+
+    const modal = document.getElementById('book-detail-modal');
+    const content = document.getElementById('book-detail-content');
+    if (!modal || !content) return;
+
+    content.innerHTML = renderResultCardsHTML(book.results, book.title);
+    modal.classList.remove('hidden');
+}
+window.viewBookDetail = viewBookDetail;
+
+function closeBookDetail() {
+    document.getElementById('book-detail-modal')?.classList.add('hidden');
+    App.viewingBookId = null;
+}
+window.closeBookDetail = closeBookDetail;
+
+function deleteBookFromDetail() {
+    if (!App.viewingBookId) return;
+    if (!confirm('确定删除这本书的分析记录？')) return;
+    const books = Store.bookshelf.filter(b => b.id !== App.viewingBookId);
+    Store.bookshelf = books;
+    closeBookDetail();
+    renderBookshelf();
+    updateHomeStats();
+    renderRecentBooks();
+    showToast('已删除');
+}
+window.deleteBookFromDetail = deleteBookFromDetail;
+
+// ================
+// 分析流程
+// ================
+function resetAnalysis() {
+    App.analysisStep = 1;
+    App.selectedMethod = 'text';
+    App.currentResults = null;
+    updateStepUI();
+    // 重置结果区
+    document.getElementById('analysis-results')?.classList.add('hidden');
+    document.querySelectorAll('.analysis-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-1')?.classList.add('active');
+}
+
+function goStep(step) {
+    // 验证
+    if (step === 2) {
+        const title = document.getElementById('analysis-book-title')?.value.trim();
+        if (!title) { showToast('请输入书名'); return; }
+    }
+    if (step === 3) {
+        const content = getAnalysisContent();
+        if (!content || content.trim().length < 10) { showToast('请输入更多内容（至少10字）'); return; }
+        // 更新确认信息
+        const title = document.getElementById('analysis-book-title')?.value.trim();
+        const confirmTitle = document.getElementById('confirm-title');
+        const confirmMethod = document.getElementById('confirm-method');
+        const confirmLength = document.getElementById('confirm-length');
+        if (confirmTitle) confirmTitle.textContent = title;
+        if (confirmMethod) confirmMethod.textContent = {text:'粘贴文字',file:'上传文件',photo:'拍照识别',link:'粘贴链接'}[App.selectedMethod];
+        if (confirmLength) confirmLength.textContent = content.length + ' 字';
+    }
+
+    App.analysisStep = step;
+    updateStepUI();
+
+    document.querySelectorAll('.analysis-step').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('step-' + step);
+    if (target) target.classList.add('active');
+}
+window.goStep = goStep;
+
+function updateStepUI() {
+    document.querySelectorAll('.step-dot').forEach(d => {
+        const s = parseInt(d.dataset.step);
+        d.classList.remove('active','done');
+        if (s === App.analysisStep) d.classList.add('active');
+        else if (s < App.analysisStep) d.classList.add('done');
+    });
+    document.querySelectorAll('.step-line').forEach((l, i) => {
+        l.classList.toggle('done', i + 1 < App.analysisStep);
+    });
+}
+
+function selectMethod(method, el) {
+    App.selectedMethod = method;
+    document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    document.querySelectorAll('.method-input').forEach(m => m.classList.remove('active'));
+    const target = document.getElementById('method-' + method);
+    if (target) target.classList.add('active');
+}
+window.selectMethod = selectMethod;
+
+function fillTitle(title) {
+    const input = document.getElementById('analysis-book-title');
+    if (input) input.value = title;
+}
+window.fillTitle = fillTitle;
+
+function getAnalysisContent() {
+    switch (App.selectedMethod) {
+        case 'text': return document.getElementById('book-input')?.value || '';
+        case 'file': return App.fileTextContent || '';
+        case 'photo': return '';
+        case 'link': return document.getElementById('link-input')?.value || '';
+        default: return '';
+    }
+}
+
+async function startAnalysis() {
+    const content = getAnalysisContent();
+    const title = document.getElementById('analysis-book-title')?.value.trim() || '书籍分析';
+    if (!content || content.trim().length < 10) { showToast('内容不足，请返回补充'); return; }
+
+    // 显示进度遮罩
+    const overlay = document.getElementById('analysis-overlay');
+    overlay?.classList.remove('hidden');
+
+    // 模拟进度
+    const steps = [
+        { text: '📖 识别书籍内容...', progress: 15, delay: 600 },
+        { text: '🧠 分析作者思维框架...', progress: 35, delay: 800 },
+        { text: '🎯 提取核心观点...', progress: 55, delay: 700 },
+        { text: '🛠️ 梳理方法论...', progress: 70, delay: 600 },
+        { text: '💡 提炼启发收获...', progress: 85, delay: 500 },
+        { text: '🚀 生成行动计划...', progress: 95, delay: 400 },
+        { text: '✅ 分析完成！', progress: 100, delay: 300 },
+    ];
+
+    for (const step of steps) {
+        const textEl = document.getElementById('overlay-progress-text');
+        const fillEl = document.getElementById('overlay-progress-fill');
+        if (textEl) textEl.textContent = step.text;
+        if (fillEl) fillEl.style.width = step.progress + '%';
+        await sleep(step.delay);
+    }
+
+    // 生成结果（用mock）
+    const results = generateMockResults(title);
+    App.currentResults = results;
+
+    // 隐藏遮罩
+    overlay?.classList.add('hidden');
+    document.getElementById('overlay-progress-fill')!.style.width = '0%';
+
+    // 显示结果
+    showResults(results, title);
+}
+window.startAnalysis = startAnalysis;
+
+function showResults(results, title) {
+    // 隐藏步骤
+    document.querySelectorAll('.analysis-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('analysis-results')?.classList.remove('hidden');
+
+    const titleEl = document.getElementById('result-book-title');
+    if (titleEl) titleEl.textContent = '📚 ' + title;
+
+    const cardsEl = document.getElementById('result-cards');
+    if (cardsEl) cardsEl.innerHTML = renderResultCardsHTML(results, title);
+}
+
+function renderResultCardsHTML(results, title) {
+    if (!results) return '<div class="empty-hint">暂无结果</div>';
+    const sections = [
+        { icon: '📝', title: '一句话总结', content: results.oneSentenceSummary, type: 'text' },
+        { icon: '🧠', title: '作者思维框架', content: results.thinkingFramework, type: 'text' },
+        { icon: '🎯', title: '核心观点', content: results.coreViewpoints, type: 'list' },
+        { icon: '🛠️', title: '方法论清单', content: results.methodology, type: 'list' },
+        { icon: '💡', title: '启发收获', content: results.inspirations, type: 'list' },
+        { icon: '🚀', title: '行动计划', content: results.actionPlan, type: 'list' },
+    ];
+
+    return sections.map((s, i) => {
+        let body = '';
+        if (s.type === 'text') {
+            body = `<p>${formatContent(s.content)}</p>`;
+        } else {
+            body = `<ul>${s.content.map(item => `<li>${formatContent(item)}</li>`).join('')}</ul>`;
+        }
+        return `
+            <div class="result-card">
+                <div class="result-card-header" onclick="toggleResultCard(this)">
+                    <h3>${s.icon} ${s.title}</h3>
+                    <span class="result-card-toggle">▼</span>
+                </div>
+                <div class="result-card-body">${body}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function toggleResultCard(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.result-card-toggle');
+    if (!body) return;
+    body.classList.toggle('collapsed');
+    toggle?.classList.toggle('collapsed');
+}
+window.toggleResultCard = toggleResultCard;
+
+function backToAnalysis() {
+    document.getElementById('analysis-results')?.classList.add('hidden');
+    App.analysisStep = 1;
+    updateStepUI();
+    document.querySelectorAll('.analysis-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-1')?.classList.add('active');
+}
+window.backToAnalysis = backToAnalysis;
+
+// ================
+// Mock 数据生成
+// ================
+function generateMockResults(title) {
+    return {
+        bookTitle: title,
+        oneSentenceSummary: '习惯的改变不靠意志力，而靠系统设计——通过优化提示、渴求、反应、奖励四个环节，让好习惯自然而然发生。',
+        thinkingFramework: '【系统思维】作者认为个人改变的关键不是设定目标，而是构建系统。目标是结果导向，系统是过程导向。\n\n【原子思维】微小的改变在复利效应下会产生巨大影响。每天进步1%，一年后你会进步37倍。\n\n【身份认同】行为改变的最深层是身份认同。与其说"我要跑步"，不如说"我是一个跑步的人"。',
+        coreViewpoints: [
+            '习惯是自我改善的复利——好习惯让时间成为盟友，坏习惯让时间成为敌人',
+            '关注系统而非目标——系统是导致结果的过程',
+            '习惯四步循环：提示→渴求→反应→奖励',
+            '环境设计比意志力更有效',
+            '身份认同是习惯的终极驱动力',
+            '习惯叠加法：将新习惯附加在已有习惯之后',
+            '两分钟法则：先建立身份认同再优化'
+        ],
+        methodology: [
+            '【让提示更明显】执行意图："我将在[时间][地点]做[行为]" + 习惯叠加 + 环境设计',
+            '【让习惯更有吸引力】诱惑捆绑 + 模仿身边人 + 仪式感',
+            '【让行动更简单】两分钟法则 + 减少阻力 + 利用技术自动化',
+            '【让奖励更满足】即时满足 + 习惯追踪 + 决不连续缺席两次'
+        ],
+        inspirations: [
+            '不要试图改变结果，要改变系统',
+            '环境是隐形的雕塑家——改变环境比改变意志力更持久',
+            '1%的力量：微小的改变看似无意义，但时间是放大器',
+            '「决不连续缺席两次」原则——一次失误不可怕，连续失误才是真正的危险'
+        ],
+        actionPlan: [
+            '今天：选择一个想养成的习惯，写出它的两分钟版本',
+            '明天：为这个习惯设计「执行意图」',
+            '第3天：用习惯叠加法，附加在每天必做的事之后',
+            '第5天：开始习惯追踪，保持不断链',
+            '第7天：复盘第一周，决不连续缺席两次'
+        ]
+    };
+}
+
+// ================
+// 保存到书架 / 导入笔记 / 导出
+// ================
+function saveToBookshelf() {
+    if (!App.currentResults) { showToast('暂无分析结果'); return; }
+    const books = Store.bookshelf;
+    const title = App.currentResults.bookTitle || document.getElementById('analysis-book-title')?.value.trim() || '未命名';
+    const id = Date.now().toString();
+
+    books.unshift({
+        id,
+        title,
+        summary: App.currentResults.oneSentenceSummary?.substring(0, 50) || '',
+        results: App.currentResults,
+        coverColor: gradientFromTitle(title),
+        analyzedAt: new Date().toISOString(),
+    });
+    Store.bookshelf = books;
+    showToast('✅ 已保存到书架');
+    updateHomeStats();
+}
+window.saveToBookshelf = saveToBookshelf;
+
+function importToNotes() {
+    if (!App.currentResults) { showToast('暂无分析结果'); return; }
+    const r = App.currentResults;
+    let content = `📖 ${r.bookTitle}\n\n`;
+    content += `📝 一句话总结：${r.oneSentenceSummary}\n\n`;
+    content += `🎯 核心观点：\n${r.coreViewpoints.map((v,i)=>`${i+1}. ${v}`).join('\n')}\n\n`;
+    content += `💡 启发：\n${r.inspirations.map(i=>`- ${i}`).join('\n')}`;
+
+    const notes = Store.notes;
+    notes.unshift({
+        id: Date.now().toString(),
+        title: `📚 ${r.bookTitle} - 读书笔记`,
+        content,
+        tags: ['读书笔记', 'AI分析'],
+        source: r.bookTitle,
+        createdAt: new Date().toISOString(),
+    });
+    Store.notes = notes;
+    showToast('✅ 已导入笔记');
+}
+window.importToNotes = importToNotes;
+
+function exportResult() {
+    if (!App.currentResults) return;
+    const r = App.currentResults;
+    let text = `# ${r.bookTitle} - AI深度分析\n\n`;
+    text += `## 一句话总结\n${r.oneSentenceSummary}\n\n`;
+    text += `## 思维框架\n${r.thinkingFramework}\n\n`;
+    text += `## 核心观点\n${r.coreViewpoints.map((v,i)=>`${i+1}. ${v}`).join('\n')}\n\n`;
+    text += `## 方法论\n${r.methodology.map(m=>`- ${m}`).join('\n')}\n\n`;
+    text += `## 启发收获\n${r.inspirations.map(i=>`- ${i}`).join('\n')}\n\n`;
+    text += `## 行动计划\n${r.actionPlan.map(a=>`- ${a}`).join('\n')}`;
+
+    const blob = new Blob([text], { type: 'text/markdown' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${r.bookTitle}_AI分析.md`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+window.exportResult = exportResult;
+
+// ================
+// 笔记管理
+// ================
+let tagFilter = 'all';
+
+function renderNotes() {
+    const container = document.getElementById('notes-timeline');
+    if (!container) return;
+
+    let notes = Store.notes;
+    const search = (document.getElementById('notes-search')?.value || '').trim().toLowerCase();
+    if (search) notes = notes.filter(n => n.title.toLowerCase().includes(search) || n.content.toLowerCase().includes(search));
+    if (tagFilter !== 'all') notes = notes.filter(n => n.tags && n.tags.includes(tagFilter));
+
+    if (notes.length === 0) {
+        container.innerHTML = '<div class="empty-hint">还没有笔记，点击 + 开始记录</div>';
+        return;
+    }
+
+    container.innerHTML = notes.map(n => `
+        <div class="note-item" onclick="viewNote('${n.id}')">
+            <div class="note-title">${esc(n.title)}</div>
+            <div class="note-preview">${esc(n.content.substring(0, 100))}</div>
+            <div class="note-meta">
+                ${(n.tags||[]).map(t => `<span class="note-tag">${esc(t)}</span>`).join('')}
+                <span class="note-time">${timeAgo(n.createdAt)}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderTagChips() {
+    const container = document.getElementById('tag-chips');
+    if (!container) return;
+    const notes = Store.notes;
+    const allTags = new Set();
+    notes.forEach(n => (n.tags||[]).forEach(t => allTags.add(t)));
+
+    container.innerHTML = `<button class="chip ${tagFilter==='all'?'active':''}" data-tag="all" onclick="setTagFilter('all',this)">全部</button>` +
+        [...allTags].map(t => `<button class="chip ${tagFilter===t?'active':''}" data-tag="${esc(t)}" onclick="setTagFilter('${esc(t)}',this)">${esc(t)}</button>`).join('');
+}
+
+function setTagFilter(tag, el) {
+    tagFilter = tag;
+    document.querySelectorAll('#page-notes .chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    renderNotes();
+}
+window.setTagFilter = setTagFilter;
+
+function showAddNoteModal(editId) {
+    App.editingNoteId = editId || null;
+    const modal = document.getElementById('note-modal');
+    const titleEl = document.getElementById('note-modal-title');
+    const inputTitle = document.getElementById('note-input-title');
+    const inputContent = document.getElementById('note-input-content');
+    const inputTags = document.getElementById('note-input-tags');
+
+    if (editId) {
+        const note = Store.notes.find(n => n.id === editId);
+        if (note) {
+            if (titleEl) titleEl.textContent = '编辑笔记';
+            if (inputTitle) inputTitle.value = note.title;
+            if (inputContent) inputContent.value = note.content;
+            if (inputTags) inputTags.value = (note.tags||[]).join(', ');
+        }
+    } else {
+        if (titleEl) titleEl.textContent = '添加笔记';
+        if (inputTitle) inputTitle.value = '';
+        if (inputContent) inputContent.value = '';
+        if (inputTags) inputTags.value = '';
+    }
+    modal?.classList.remove('hidden');
+}
+window.showAddNoteModal = showAddNoteModal;
+
+function closeNoteModal() {
+    document.getElementById('note-modal')?.classList.add('hidden');
+    App.editingNoteId = null;
+}
+window.closeNoteModal = closeNoteModal;
+
+function saveNote() {
+    const title = document.getElementById('note-input-title')?.value.trim() || '无标题';
+    const content = document.getElementById('note-input-content')?.value.trim() || '';
+    const tagsRaw = document.getElementById('note-input-tags')?.value.trim() || '';
+    const tags = tagsRaw.split(/[,，]/).map(t => t.trim()).filter(Boolean);
+
+    const notes = Store.notes;
+
+    if (App.editingNoteId) {
+        const idx = notes.findIndex(n => n.id === App.editingNoteId);
+        if (idx >= 0) {
+            notes[idx] = { ...notes[idx], title, content, tags, updatedAt: new Date().toISOString() };
+        }
+    } else {
+        notes.unshift({
+            id: Date.now().toString(),
+            title, content, tags,
+            source: '',
+            createdAt: new Date().toISOString(),
+        });
+    }
+
+    Store.notes = notes;
+    closeNoteModal();
+    renderNotes();
+    renderTagChips();
+    showToast('✅ 已保存');
+}
+window.saveNote = saveNote;
+
+function viewNote(id) {
+    const note = Store.notes.find(n => n.id === id);
+    if (!note) return;
+    // 用模态展示，复用编辑
+    if (confirm('查看/编辑这篇笔记？\n\n标题：' + note.title + '\n\n取消则删除此笔记')) {
+        showAddNoteModal(id);
+    } else {
+        if (confirm('确定删除这篇笔记？')) {
+            Store.notes = Store.notes.filter(n => n.id !== id);
+            renderNotes();
+            renderTagChips();
+            showToast('已删除');
+        }
+    }
+}
+window.viewNote = viewNote;
+
+// ================
+// 文件上传
+// ================
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('file-input');
+    if (fileInput) {
+        fileInput.addEventListener('change', handleFileSelect);
+    }
+});
+
+function handleFileSelect(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    App.selectedFile = file;
+
+    const fileNameEl = document.getElementById('file-name');
+    const fileSelectedEl = document.getElementById('file-selected');
+    if (fileNameEl) fileNameEl.textContent = `📄 ${file.name} (${formatFileSize(file.size)})`;
+    if (fileSelectedEl) fileSelectedEl.classList.remove('hidden');
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        if (file.name.endsWith('.txt')) {
+            App.fileTextContent = ev.target.result;
+        } else {
+            App.fileTextContent = '';
+            showToast('PDF/DOCX建议使用「粘贴文字」模式');
+        }
+    };
+    if (file.name.endsWith('.txt')) reader.readAsText(file);
+    else reader.readAsArrayBuffer(file);
+}
+
+function clearFile() {
+    App.selectedFile = null;
+    App.fileTextContent = '';
+    const fileInput = document.getElementById('file-input');
+    const fileSelectedEl = document.getElementById('file-selected');
+    if (fileInput) fileInput.value = '';
+    if (fileSelectedEl) fileSelectedEl.classList.add('hidden');
+}
+window.clearFile = clearFile;
+
+// ================
+// 个人设置
+// ================
+function updateProfile() {
+    const books = Store.bookshelf;
+    const notes = Store.notes;
+    const settings = Store.settings;
+
+    const el1 = document.getElementById('profile-books');
+    const el2 = document.getElementById('profile-notes');
+    const el3 = document.getElementById('profile-days');
+    const nameEl = document.getElementById('profile-nickname');
+
+    if (el1) el1.textContent = books.length;
+    if (el2) el2.textContent = notes.length;
+    if (nameEl) nameEl.textContent = settings.nickname || '阅读者';
+
+    if (el3) {
+        const first = new Date(settings.firstDay || Date.now());
+        const days = Math.max(1, Math.ceil((Date.now() - first.getTime()) / 86400000));
+        el3.textContent = days;
+    }
+}
+
+function toggleTheme() {
+    const settings = Store.settings;
+    settings.theme = settings.theme === 'dark' ? 'light' : 'dark';
+    Store.settings = settings;
+    applyTheme();
+}
+
+function applyTheme() {
+    const settings = Store.settings;
+    const isDark = settings.theme !== 'light';
+    document.body.classList.toggle('light', !isDark);
+
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) toggle.classList.toggle('on', !isDark);
+
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#0f0f1a' : '#f5f6fa');
+}
+
+function showApiModal() {
+    const modal = document.getElementById('api-modal');
+    const input = document.getElementById('api-key-input');
+    if (input) input.value = Store.settings.apiKey || '';
+    modal?.classList.remove('hidden');
+}
+window.showApiModal = showApiModal;
+
+function closeApiModal() {
+    document.getElementById('api-modal')?.classList.add('hidden');
+}
+window.closeApiModal = closeApiModal;
+
+function saveApiKey() {
+    const key = document.getElementById('api-key-input')?.value.trim() || '';
+    const settings = Store.settings;
+    settings.apiKey = key;
+    Store.settings = settings;
+    closeApiModal();
+    updateApiKeyStatus();
+    showToast('✅ API Key 已保存');
+}
+window.saveApiKey = saveApiKey;
+
+function updateApiKeyStatus() {
+    const el = document.getElementById('api-key-status');
+    if (el) el.textContent = Store.settings.apiKey ? '已配置 ✓' : '未配置';
+}
+
+function exportData() {
+    const data = {
+        notes: Store.notes,
+        bookshelf: Store.bookshelf,
+        settings: Store.settings,
+        exportedAt: new Date().toISOString(),
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '深读_数据备份_' + new Date().toLocaleDateString('zh-CN').replace(/\//g,'-') + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('✅ 数据已导出');
+}
+window.exportData = exportData;
+
+function showAbout() {
+    showToast('深读 v2.0 - AI书籍深度分析工具');
+}
+window.showAbout = showAbout;
+
+// ================
+// 工具函数
+// ================
+function esc(str) {
+    if (!str) return '';
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+}
+
+function formatDate(iso) {
+    if (!iso) return '';
+    return new Date(iso).toLocaleDateString('zh-CN');
+}
+
+function timeAgo(iso) {
+    if (!iso) return '';
+    const diff = Date.now() - new Date(iso).getTime();
+    if (diff < 60000) return '刚刚';
+    if (diff < 3600000) return Math.floor(diff/60000) + '分钟前';
+    if (diff < 86400000) return Math.floor(diff/3600000) + '小时前';
+    if (diff < 604800000) return Math.floor(diff/86400000) + '天前';
+    return formatDate(iso);
+}
+
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/1048576).toFixed(1) + ' MB';
+}
+
+function formatContent(text) {
+    if (!text) return '';
+    return text.split('\n').map(line => {
+        if (line.trim() === '') return '<br>';
+        return line.replace(/【(.+?)】/g, '<strong>【$1】</strong>');
+    }).join('');
+}
+
+function gradientFromTitle(title) {
+    if (!title) return 'linear-gradient(135deg, #6c5ce7, #a29bfe)';
+    const gradients = [
+        'linear-gradient(135deg, #6c5ce7, #a29bfe)',
+        'linear-gradient(135deg, #e17055, #fdcb6e)',
+        'linear-gradient(135deg, #00b894, #00cec9)',
+        'linear-gradient(135deg, #fd79a8, #e84393)',
+        'linear-gradient(135deg, #0984e3, #74b9ff)',
+        'linear-gradient(135deg, #6c5ce7, #fd79a8)',
+        'linear-gradient(135deg, #00b894, #55efc4)',
+        'linear-gradient(135deg, #e17055, #d63031)',
+        'linear-gradient(135deg, #fdcb6e, #e17055)',
+        'linear-gradient(135deg, #a29bfe, #fd79a8)',
+    ];
+    let hash = 0;
+    for (let i = 0; i < title.length; i++) hash = ((hash << 5) - hash) + title.charCodeAt(i);
+    return gradients[Math.abs(hash) % gradients.length];
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function showToast(msg) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.remove('hidden');
+    setTimeout(() => el.classList.add('hidden'), 2500);
+}
