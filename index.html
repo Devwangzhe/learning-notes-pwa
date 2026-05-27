@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4A90E2">
+    <meta name="description" content="学习笔记工具 - 书籍深度分析 + 智能笔记">
+    <title>学习笔记工具</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app">
+        <!-- Header with Tabs -->
+        <header class="header">
+            <div class="tab-bar">
+                <button class="tab active" data-tab="book-analysis">
+                    <span class="tab-icon">📚</span>
+                    <span class="tab-text">书籍分析</span>
+                </button>
+                <button class="tab" data-tab="notes">
+                    <span class="tab-icon">📝</span>
+                    <span class="tab-text">学习笔记</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Book Analysis Tab -->
+            <section id="book-analysis" class="tab-content active">
+                <div class="container">
+                    <h1 class="page-title">📚 书籍深度分析</h1>
+                    
+                    <!-- Input Section -->
+                    <div class="input-section card">
+                        <h2>输入书籍信息</h2>
+                        <div class="input-options">
+                            <button class="input-option" data-method="text">
+                                <span class="option-icon">📝</span>
+                                <span>粘贴文字</span>
+                            </button>
+                            <button class="input-option" data-method="file">
+                                <span class="option-icon">📄</span>
+                                <span>上传文件</span>
+                            </button>
+                            <button class="input-option" data-method="photo">
+                                <span class="option-icon">📷</span>
+                                <span>拍照识别</span>
+                            </button>
+                            <button class="input-option" data-method="link">
+                                <span class="option-icon">🔗</span>
+                                <span>粘贴链接</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Text Input Area (default visible) -->
+                        <div id="input-text" class="input-method active">
+                            <textarea id="book-input" placeholder="粘贴书籍内容、笔记或摘要..." rows="6"></textarea>
+                            <input type="text" id="book-title" placeholder="书名（可选）">
+                            <button id="analyze-btn" class="btn-primary">开始分析</button>
+                        </div>
+                        
+                        <!-- File Upload (hidden) -->
+                        <div id="input-file" class="input-method">
+                            <input type="file" id="file-input" accept=".pdf,.txt,.docx">
+                            <p class="hint">支持 PDF、TXT、DOCX 格式</p>
+                        </div>
+                        
+                        <!-- Photo Upload (hidden) -->
+                        <div id="input-photo" class="input-method">
+                            <input type="file" id="photo-input" accept="image/*" capture="environment">
+                            <p class="hint">拍摄书页或上传照片</p>
+                        </div>
+                        
+                        <!-- Link Input (hidden) -->
+                        <div id="input-link" class="input-method">
+                            <input type="url" id="link-input" placeholder="粘贴书籍链接（豆瓣、亚马逊等）">
+                            <button id="fetch-link-btn" class="btn-secondary">获取信息</button>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Progress (hidden by default) -->
+                    <div id="analysis-progress" class="progress-section card hidden">
+                        <h2>AI 分析中...</h2>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                        <p id="progress-text">正在提取作者思维框架...</p>
+                    </div>
+
+                    <!-- Results Section (hidden by default) -->
+                    <div id="analysis-results" class="results-section hidden">
+                        <!-- One Sentence Summary -->
+                        <div class="result-card card">
+                            <h3>📝 一句话总结</h3>
+                            <p id="one-sentence-summary" class="summary-text"></p>
+                        </div>
+                        
+                        <!-- Thinking Framework -->
+                        <div class="result-card card">
+                            <h3>🧠 作者思维框架</h3>
+                            <div id="thinking-framework" class="framework-content"></div>
+                        </div>
+                        
+                        <!-- Core Viewpoints -->
+                        <div class="result-card card">
+                            <h3>🎯 核心观点</h3>
+                            <div id="core-viewpoints" class="viewpoints-list"></div>
+                        </div>
+                        
+                        <!-- Methodology -->
+                        <div class="result-card card">
+                            <h3>🛠️ 方法论清单</h3>
+                            <div id="methodology-list" class="methodology-content"></div>
+                        </div>
+                        
+                        <!-- Inspirations -->
+                        <div class="result-card card">
+                            <h3>💡 启发收获</h3>
+                            <div id="inspirations-list" class="inspirations-content"></div>
+                        </div>
+                        
+                        <!-- Action Plan -->
+                        <div class="result-card card">
+                            <h3>🚀 行动计划</h3>
+                            <div id="action-plan" class="action-content"></div>
+                        </div>
+                        
+                        <!-- Mind Map -->
+                        <div class="result-card card">
+                            <h3>🗺️ 思维导图</h3>
+                            <div id="mindmap-container" class="mindmap-content"></div>
+                            <button id="view-mindmap-btn" class="btn-secondary">查看完整导图</button>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button id="import-to-notes-btn" class="btn-primary">📝 导入学习笔记</button>
+                            <button id="save-to-bookshelf-btn" class="btn-secondary">📚 保存到书架</button>
+                            <button id="export-word-btn" class="btn-secondary">💾 导出Word</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notes Tab -->
+            <section id="notes" class="tab-content">
+                <div class="container">
+                    <h1 class="page-title">📝 学习笔记</h1>
+                    
+                    <!-- Notes List -->
+                    <div id="notes-list" class="notes-list">
+                        <!-- Notes will be dynamically added here -->
+                    </div>
+                    
+                    <!-- Add Note Button -->
+                    <button id="add-note-btn" class="btn-float">+</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation (Mobile) -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-nav="book-analysis">
+                <span class="nav-icon">📚</span>
+                <span class="nav-text">书籍分析</span>
+            </button>
+            <button class="nav-btn" data-nav="notes">
+                <span class="nav-icon">📝</span>
+                <span class="nav-text">学习笔记</span>
+            </button>
+            <button class="nav-btn" data-nav="stats">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">统计</span>
+            </button>
+            <button class="nav-btn" data-nav="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">设置</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <script src="book-analysis.js"></script>
+</body>
+</html>
